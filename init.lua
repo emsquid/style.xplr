@@ -329,6 +329,4 @@ local function get_node_style(node)
     return parse_style(style_table)
 end
 
-print(style.fg[{ Rgb = { 13, 8, 4 } }]("Air jee beez"))
-
 return { style = style, get_node_style = get_node_style }
