@@ -329,4 +329,4 @@ local function get_node_style(node)
     return parse_style(style_table)
 end
 
-return { style = style, get_node_style = get_node_style }
+return { style = style, parse_style = parse_style, get_node_style = get_node_style }

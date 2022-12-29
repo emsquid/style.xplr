@@ -36,6 +36,10 @@ This plugin gives a better way to interact with xplr `Style`
     -- And
     
     local get_node_style = require("style").get_node_style
+
+    -- And
+    
+    local parse_style = require("style").parse_style
     ```
 
 ## Usage
@@ -62,14 +66,22 @@ This plugin gives a better way to interact with xplr `Style`
     ```
     > **NOTE**: Sub modifiers should be applied before adding modifiers to be effective (This is how it is, if someone finds a way to fix it).
 
+- the `parse_style` function returns a function which applies the given `Style` 
+    ```lua
+    -- Style has the same format as the documentation
+    local my_style = parse_style({ fg = "Red", bg = "DarkGray", add_modifiers = { "Bold", "CrossedOut" } })
+
+    local my_text_1 = my_style("Lookin' good crossed out)
+    ```
+
 - The `get_node_style` function returns a function which is supposed to replicate the given node style based on your configuration
     ```lua
     -- Get the style
     local my_node_style = get_node_style(node) 
 
     -- Use it as you want
-    local my_text_1 = my_node_style("Yay I look like the node")
-    local my_text_2 = my_node_style("Me 2")
+    local my_text_2 = my_node_style("Yay I look like the node")
+    local my_text_3 = my_node_style("Me 2")
 
     -- ...
     ```
