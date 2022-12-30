@@ -1,10 +1,11 @@
 # style.xplr
 
-This plugin gives a better way to interact with [xplr](https://xplr.dev) `Style`
+This plugin gives an easy way to replicate [xplr](https://xplr.dev) `Style` concept. 
+It generates ansi escape codes itself without depending on xplr API, but the variables are the same so it can be used when writing plugins!
 
 ## Requirements
 
-- A terminal with color support
+- A terminal with ansi color support
 
 ## Installation
 
@@ -68,7 +69,7 @@ This plugin gives a better way to interact with [xplr](https://xplr.dev) `Style`
     
     -- ...
     ```
-    > **NOTE**: Sub modifiers should be applied before adding modifiers to be effective (This is how it is, if someone finds a way to fix it).
+    > **NOTE**: The color being used is the first being applied (i.e. if you apply a Red foreground to a text, and apply a Black foreground after, it will be Red), same goes for adding and subbing modifiers 
 
 - The `separator` variable can be used to reset styling
     ```lua
@@ -88,7 +89,7 @@ This plugin gives a better way to interact with [xplr](https://xplr.dev) `Style`
     -- Style has the same format as the documentation
     local my_style = parse_style({ fg = "Red", bg = "DarkGray", add_modifiers = { "Bold", "CrossedOut" } })
 
-    local my_text_1 = my_style("Lookin' good crossed out)
+    local my_text_1 = my_style("Lookin' good crossed out")
     ```
 
 - The `get_node_style` function returns a function which is supposed to replicate the given node style based on your configuration
