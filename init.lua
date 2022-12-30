@@ -19,6 +19,8 @@ local function split(str, sep)
 end
 
 -- Default function
+local separator = "\x1b[0m"
+
 local function normal(text)
     return text
 end
@@ -26,7 +28,7 @@ end
 -- Main function to apply ansi escape code to a text
 local function ansi_escape(text, code)
     if no_color == nil then
-        return "\x1b[" .. code .. "m" .. text .. "\x1b[0m"
+        return "\x1b[" .. code .. "m" .. text
     else
         return text
     end
@@ -293,15 +295,15 @@ end
 -- Return a function which applies the node style
 local function get_node_style(node)
     local types = xplr.config.node_types
-    local style_table = {}
+    local node_style = {}
 
     -- TYPE
     if node.is_symlink then
-        style_table = types.symlink.style
+        node_style = types.symlink.style
     elseif node.is_dir then
-        style_table = types.directory.style
+        node_style = types.directory.style
     else
-        style_table = types.file.style
+        node_style = types.file.style
     end
 
     -- MIME
@@ -309,24 +311,28 @@ local function get_node_style(node)
     local mime_essence = types.mime_essence[mime[1]]
 
     if mime_essence ~= nil then
-        style_table = mime_essence[mime[2]] or mime_essence["*"] or style_table
+        if mime_essence[mime[2]] ~= nil then
+            node_style = mime_essence[mime[2]].style or node_style
+        elseif mime_essence["*"] ~= nil then
+            node_style = mime_essence["*"].style or node_style
+        end
     end
 
     -- EXTENSION
     local extension = types.extension[node.extension]
 
     if extension ~= nil then
-        style_table = extension.style or style_table
+        node_style = extension.style or node_style
     end
 
     -- SPECIAL
     local special = types.special[node.relative_path]
 
     if special ~= nil then
-        style_table = special.style or style_table
+        node_style = special.style or node_style
     end
 
-    return parse_style(style_table)
+    return parse_style(node_style)
 end
 
-return { style = style, parse_style = parse_style, get_node_style = get_node_style }
+return { style = style, separator = separator, parse_style = parse_style, get_node_style = get_node_style }

@@ -1,10 +1,10 @@
 # style.xplr
 
-This plugin gives a better way to interact with xplr `Style`
+This plugin gives a better way to interact with [xplr](https://xplr.dev) `Style`
 
 ## Requirements
 
-- None
+- A terminal with color support
 
 ## Installation
 
@@ -35,11 +35,15 @@ This plugin gives a better way to interact with xplr `Style`
 
     -- And
     
-    local get_node_style = require("style").get_node_style
+    local separator = require("style").separator
 
     -- And
     
     local parse_style = require("style").parse_style
+    
+    -- And
+
+    local get_node_style = require("style").get_node_style
     ```
 
 ## Usage
@@ -49,7 +53,7 @@ This plugin gives a better way to interact with xplr `Style`
     -- Make text red
     style.fg.Red("I am red")
 
-    -- Make text background green
+    -- Make text's background green
     style.bg.Green("My background is green")
 
     -- Make text bold
@@ -66,7 +70,20 @@ This plugin gives a better way to interact with xplr `Style`
     ```
     > **NOTE**: Sub modifiers should be applied before adding modifiers to be effective (This is how it is, if someone finds a way to fix it).
 
-- the `parse_style` function returns a function which applies the given `Style` 
+- The `separator` variable can be used to reset styling
+    ```lua
+    -- This would make everything red
+    local my_red_1 = style.fg.Red("Starting red... ") .. "ending red too..."
+
+    -- To prevent that
+    local my_red_2 = style.fg.Red("Starting red... ") .. separator .. "not ending red!"
+
+    -- Note that this wouldn't cause any problem
+    local my_mix = style.fg.Red("Starting red... ") .. style.fg.Blue("ending blue!")
+    ```
+    > **NOTE**: Before, the separator was used in every function but was causing unwanted behavior, it is easier to control manually
+
+- The `parse_style` function returns a function which applies the given `Style` 
     ```lua
     -- Style has the same format as the documentation
     local my_style = parse_style({ fg = "Red", bg = "DarkGray", add_modifiers = { "Bold", "CrossedOut" } })
