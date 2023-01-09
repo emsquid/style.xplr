@@ -16,7 +16,7 @@ It generates ansi escape codes itself without depending on xplr API, but the var
     ```lua
     local home = os.getenv("HOME")
     package.path = home
-      .. "/.config/xplr/plugins/?/src/init.lua;"
+      .. "/.config/xplr/plugins/?/init.lua;"
       .. home
       .. "/.config/xplr/plugins/?.lua;"
       .. package.path
